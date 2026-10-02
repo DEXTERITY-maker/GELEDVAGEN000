@@ -1,547 +1,153 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Космические открытия</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background: linear-gradient(135deg, #0c0c2e 0%, #1a1a3e 100%);
-            color: #fff;
-            min-height: 100vh;
-            padding: 20px;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        header {
-            text-align: center;
-            padding: 30px 0;
-            border-bottom: 2px solid #4a4aff;
-            margin-bottom: 30px;
-        }
-        
-        h1 {
-            font-size: 2.8rem;
-            background: linear-gradient(90deg, #4a4aff, #00d4ff);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin-bottom: 10px;
-        }
-        
-        .subtitle {
-            font-size: 1.2rem;
-            color: #a0a0ff;
-        }
-        
-        .stats-bar {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 15px;
-            border-radius: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-            border: 1px solid #333366;
-        }
-        
-        .visits-counter {
-            font-size: 1.1rem;
-            background: #1a1a4d;
-            padding: 10px 20px;
-            border-radius: 20px;
-            border: 1px solid #4a4aff;
-        }
-        
-        .counter-number {
-            font-weight: bold;
-            color: #00d4ff;
-            font-size: 1.3rem;
-        }
-        
-        .main-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin-bottom: 40px;
-        }
-        
-        @media (max-width: 768px) {
-            .main-content {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        .info-section, .game-section {
-            background: rgba(20, 20, 60, 0.7);
-            border-radius: 15px;
-            padding: 25px;
-            border: 1px solid #333366;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-        }
-        
-        h2 {
-            color: #00d4ff;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #333366;
-        }
-        
-        .fact-item {
-            background: rgba(30, 30, 80, 0.5);
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            border-left: 4px solid #4a4aff;
-            transition: transform 0.3s;
-        }
-        
-        .fact-item:hover {
-            transform: translateX(5px);
-            background: rgba(40, 40, 100, 0.7);
-        }
-        
-        .fact-title {
-            font-weight: bold;
-            color: #a0a0ff;
-            margin-bottom: 5px;
-        }
-        
-        .game-area {
-            text-align: center;
-        }
-        
-        .planet-display {
-            width: 200px;
-            height: 200px;
-            margin: 0 auto 20px;
-            border-radius: 50%;
-            background: radial-gradient(circle at 30% 30%, #1a3a6d, #0c1b33);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 5rem;
-            border: 3px solid #4a4aff;
-            box-shadow: 0 0 30px rgba(74, 74, 255, 0.5);
-            transition: all 0.5s;
-        }
-        
-        .controls {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-top: 20px;
-        }
-        
-        button {
-            background: linear-gradient(90deg, #4a4aff, #00d4ff);
-            color: white;
-            border: none;
-            padding: 15px;
-            border-radius: 10px;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-weight: bold;
-        }
-        
-        button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(74, 74, 255, 0.4);
-        }
-        
-        select, input {
-            padding: 15px;
-            border-radius: 10px;
-            border: 1px solid #4a4aff;
-            background: rgba(10, 10, 40, 0.8);
-            color: white;
-            font-size: 1rem;
-        }
-        
-        .result {
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 10px;
-            background: rgba(30, 30, 80, 0.5);
-            display: none;
-        }
-        
-        .success {
-            background: rgba(0, 100, 0, 0.3);
-            border: 1px solid #00aa00;
-        }
-        
-        .error {
-            background: rgba(100, 0, 0, 0.3);
-            border: 1px solid #ff5555;
-        }
-        
-        .visitors-log {
-            background: rgba(20, 20, 60, 0.7);
-            border-radius: 15px;
-            padding: 25px;
-            border: 1px solid #333366;
-            margin-top: 30px;
-        }
-        
-        .log-container {
-            height: 200px;
-            overflow-y: auto;
-            background: rgba(10, 10, 40, 0.8);
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 15px;
-            border: 1px solid #333366;
-        }
-        
-        .log-entry {
-            padding: 8px;
-            border-bottom: 1px solid #333366;
-            font-family: monospace;
-        }
-        
-        footer {
-            text-align: center;
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 1px solid #333366;
-            color: #a0a0ff;
-            font-size: 0.9rem;
-        }
-        
-        .discovery-count {
-            font-size: 1.2rem;
-            color: #00d4ff;
-            font-weight: bold;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self';" />
+  <title>NeoMatch — Communication & Dating (Secure Demo)</title>
+  <style>
+    :root{--bg:#0b1020;--card:#121a31;--muted:#9ba8d0;--txt:#ecf1ff;--accent:#ff4d6a;--ok:#32d583}
+    *{box-sizing:border-box} body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:linear-gradient(160deg,#0a1020,#121b39 60%,#1b1030);color:var(--txt)}
+    .app{max-width:520px;margin:16px auto;min-height:calc(100vh - 32px);background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:20px;overflow:hidden;backdrop-filter:blur(10px)}
+    header{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid rgba(255,255,255,.08)}
+    h1{font-size:1.1rem;margin:0}.muted{color:var(--muted);font-size:.86rem}
+    main{padding:12px}.card{background:var(--card);padding:14px;border-radius:14px;border:1px solid rgba(255,255,255,.08);margin-bottom:10px}
+    input,textarea,button,select{width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.15);background:#0f1730;color:var(--txt)}
+    button{cursor:pointer;font-weight:700}.row{display:grid;grid-template-columns:1fr 1fr;gap:8px}.danger{background:#3b1320}.accent{background:linear-gradient(120deg,#ff4d6a,#ff7f98);border:none}
+    .ok{color:var(--ok)} .hidden{display:none}
+    nav{display:flex;gap:8px;padding:10px;border-top:1px solid rgba(255,255,255,.08)} nav button{font-size:.9rem}
+    .msg{padding:8px 10px;border-radius:10px;margin:6px 0;max-width:85%}.me{margin-left:auto;background:#5f1d2a}.them{background:#202b52}
+    .profile-avatar{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;font-weight:700;background:#3952a3}
+  </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>🚀 Космические открытия</h1>
-            <p class="subtitle">Исследуйте Вселенную и совершайте научные открытия!</p>
-        </header>
-        
-        <div class="stats-bar">
-            <div class="discoveries">
-                <span class="discovery-count">0</span> открытий совершено
-            </div>
-            <div class="visits-counter">
-                Посещений: <span class="counter-number" id="visitCount">0</span>
-            </div>
+<div class="app">
+  <header>
+    <h1>✦ NeoMatch</h1>
+    <div id="geoStatus" class="muted">Геолокация: не запрошена</div>
+  </header>
+  <main>
+    <section id="discover" class="screen">
+      <div class="card">
+        <div id="profilePreview"></div>
+        <p class="muted" id="distance">Расстояние: —</p>
+        <div class="row">
+          <button id="btnNo" class="danger">✕ Пропустить</button>
+          <button id="btnYes" class="accent">♥ Лайк</button>
         </div>
-        
-        <div class="main-content">
-            <section class="info-section">
-                <h2>📚 Факты о космосе</h2>
-                <div id="factsContainer">
-                    <!-- Факты будут добавляться через JavaScript -->
-                </div>
-            </section>
-            
-            <section class="game-section">
-                <h2>🎮 Игра: Угадай планету</h2>
-                <div class="game-area">
-                    <div class="planet-display" id="planetDisplay">?</div>
-                    
-                    <div class="controls">
-                        <select id="planetSelect">
-                            <option value="">Выберите планету</option>
-                            <option value="mercury">Меркурий</option>
-                            <option value="venus">Венера</option>
-                            <option value="earth">Земля</option>
-                            <option value="mars">Марс</option>
-                            <option value="jupiter">Юпитер</option>
-                            <option value="saturn">Сатурн</option>
-                            <option value="uranus">Уран</option>
-                            <option value="neptune">Нептун</option>
-                        </select>
-                        
-                        <button id="guessBtn">Сделать предположение</button>
-                        <button id="hintBtn">Получить подсказку</button>
-                        <button id="newGameBtn">Новая игра</button>
-                    </div>
-                    
-                    <div class="result" id="result"></div>
-                </div>
-            </section>
+      </div>
+      <div class="card">
+        <button id="requestGeo">Разрешить геолокацию</button>
+        <p class="muted">Геолокация используется только локально в браузере для демо.</p>
+      </div>
+    </section>
+
+    <section id="chat" class="screen hidden">
+      <div class="card">
+        <div id="chatBox"></div>
+        <div class="row" style="grid-template-columns:1fr auto;">
+          <input id="chatInput" maxlength="280" placeholder="Сообщение (до 280 символов)" />
+          <button id="send" style="width:auto">➤</button>
         </div>
-        
-        <section class="visitors-log">
-            <h2>📋 Журнал посещений</h2>
-            <p>Всего уникальных посещений: <span id="totalVisits">0</span></p>
-            <div class="log-container" id="logContainer">
-                <!-- Записи журнала будут добавляться через JavaScript -->
-            </div>
-        </section>
-        
-        <footer>
-            <p>© 2023 Космические открытия | Вселенная ждет своих исследователей!</p>
-            <p style="margin-top: 10px;">Игра обновляется ежедневно с новыми фактами и загадками</p>
-        </footer>
-    </div>
+      </div>
+    </section>
 
-    <script>
-        // Данные для сайта
-        const spaceFacts = [
-            {title: "Солнечная система", fact: "В нашей Солнечной системе 8 планет, но были времена, когда мы считали, что их 9."},
-            {title: "Юпитер", fact: "Юпитер настолько велик, что внутри него могли бы поместиться все остальные планеты Солнечной системы."},
-            {title: "Венера", fact: "День на Венере длиннее, чем год. Полный оборот вокруг Солнца она совершает быстрее, чем оборот вокруг своей оси."},
-            {title: "Марс", fact: "На Марсе находится самый большой вулкан в Солнечной системе - Олимп, высотой 21 км."},
-            {title: "Сатурн", fact: "Кольца Сатурна состоят из миллиардов частиц льда и камня размером от пылинок до домов."},
-            {title: "Меркурий", fact: "Меркурий - самая быстрая планета, он совершает полный оборот вокруг Солнца всего за 88 земных дней."},
-            {title: "Нептун", fact: "На Нептуне дуют самые сильные ветры в Солнечной системе - их скорость достигает 2100 км/ч."},
-            {title: "Уран", fact: "Уран вращается "лежа на боку" - его ось вращения наклонена на 98 градусов."},
-            {title: "Земля", fact: "Земля - единственная известная планета, на которой существует жизнь."},
-            {title: "Космические станции", fact: "Международная космическая станция (МКС) совершает полный оборот вокруг Земли за 90 минут."}
-        ];
+    <section id="profile" class="screen hidden">
+      <div class="card">
+        <div class="profile-avatar" id="avatar">A</div>
+        <label class="muted">Имя</label><input id="name" maxlength="40" />
+        <label class="muted">Возраст</label><input id="age" type="number" min="18" max="99" />
+        <label class="muted">Био</label><textarea id="bio" maxlength="300"></textarea>
+        <button id="save" class="accent">Сохранить профиль</button>
+        <p class="muted">Надёжность: данные валидируются и сохраняются atomically в localStorage.</p>
+      </div>
+    </section>
+  </main>
+  <nav>
+    <button data-s="discover">🔥 Discover</button>
+    <button data-s="chat">💬 Chat</button>
+    <button data-s="profile">👤 Profile</button>
+  </nav>
+</div>
+<script>
+(() => {
+  'use strict';
+  const $ = s => document.querySelector(s);
+  const screens = ['discover','chat','profile'];
+  const key = 'neomatch_secure_v2';
+  const defaults = { profile:{name:'Alex',age:26,bio:'Люблю кофе и прогулки',avatar:'A'}, likes:0, passes:0, chat:[{by:'them',text:'Привет! 👋'}], geo:null };
 
-        const planetData = {
-            mercury: {name: "Меркурий", emoji: "☿", hint: "Самая близкая к Солнцу планета"},
-            venus: {name: "Венера", emoji: "♀", hint: "Самая горячая планета в нашей системе"},
-            earth: {name: "Земля", emoji: "🌍", hint: "Единственная планета с жидкой водой на поверхности"},
-            mars: {name: "Марс", emoji: "♂", hint: "Красная планета, названа в честь бога войны"},
-            jupiter: {name: "Юпитер", emoji: "♃", hint: "Самая большая планета в Солнечной системе"},
-            saturn: {name: "Сатурн", emoji: "♄", hint: "Известен своими впечатляющими кольцами"},
-            uranus: {name: "Уран", emoji: "♅", hint: "Вращается на боку, имеет голубой цвет"},
-            neptune: {name: "Нептун", emoji: "♆", hint: "Самая ветреная планета в нашей системе"}
-        };
+  function safeParse(v){ try{return JSON.parse(v)}catch{return null} }
+  function load(){ return Object.assign({}, defaults, safeParse(localStorage.getItem(key)) || {}); }
+  let state = load();
 
-        // Инициализация при загрузке страницы
-        document.addEventListener('DOMContentLoaded', function() {
-            // Инициализация счетчика посещений
-            initializeVisitCounter();
-            
-            // Заполнение фактов
-            populateFacts();
-            
-            // Настройка игры
-            initializeGame();
-            
-            // Обновление журнала посещений
-            updateVisitorsLog();
-        });
+  function persist(){
+    const snapshot = JSON.stringify(state);
+    localStorage.setItem(key + '_tmp', snapshot);
+    localStorage.setItem(key, snapshot);
+    localStorage.removeItem(key + '_tmp');
+  }
 
-        // Счетчик посещений
-        function initializeVisitCounter() {
-            let visits = localStorage.getItem('spaceSiteVisits');
-            if (!visits) {
-                visits = Math.floor(Math.random() * 50) + 80; // Начинаем примерно со 100 посещений
-            } else {
-                visits = parseInt(visits) + 1;
-            }
-            
-            localStorage.setItem('spaceSiteVisits', visits);
-            document.getElementById('visitCount').textContent = visits;
-            document.getElementById('totalVisits').textContent = visits;
-            
-            // Добавляем текущее посещение в журнал
-            const now = new Date();
-            const visitLog = JSON.parse(localStorage.getItem('spaceVisitLog') || '[]');
-            
-            visitLog.unshift({
-                id: Date.now(),
-                time: now.toLocaleString('ru-RU'),
-                type: 'Посещение'
-            });
-            
-            // Ограничиваем журнал 100 записями
-            if (visitLog.length > 100) {
-                visitLog.length = 100;
-            }
-            
-            localStorage.setItem('spaceVisitLog', JSON.stringify(visitLog));
-        }
+  function esc(s){ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+  function validateProfile(p){
+    const name = (p.name||'').trim().slice(0,40) || defaults.profile.name;
+    const ageN = Number(p.age); const age = Number.isInteger(ageN) && ageN>=18 && ageN<=99 ? ageN : defaults.profile.age;
+    const bio = (p.bio||'').trim().slice(0,300) || defaults.profile.bio;
+    return {name, age, bio, avatar: name.charAt(0).toUpperCase()};
+  }
 
-        // Заполнение фактов
-        function populateFacts() {
-            const container = document.getElementById('factsContainer');
-            
-            // Показываем все факты
-            spaceFacts.forEach(fact => {
-                const factElement = document.createElement('div');
-                factElement.className = 'fact-item';
-                factElement.innerHTML = `
-                    <div class="fact-title">${fact.title}</div>
-                    <div class="fact-text">${fact.fact}</div>
-                `;
-                container.appendChild(factElement);
-            });
-        }
+  function renderDiscover(){
+    $('#profilePreview').innerHTML = `<strong>${esc(state.profile.name)}</strong>, ${state.profile.age}<br><span class="muted">${esc(state.profile.bio)}</span>`;
+    $('#distance').textContent = state.geo ? `Расстояние: ~${Math.max(1,Math.round((Math.abs(state.geo.lat)+Math.abs(state.geo.lng))%12))} км` : 'Расстояние: неизвестно (нужна геолокация)';
+    $('#geoStatus').textContent = state.geo ? `Геолокация: ${state.geo.lat.toFixed(3)}, ${state.geo.lng.toFixed(3)}` : 'Геолокация: не запрошена';
+  }
 
-        // Игровая логика
-        let currentPlanet = '';
-        let discoveries = 0;
-        let attempts = 0;
+  function renderChat(){
+    const box = $('#chatBox'); box.innerHTML = '';
+    state.chat.slice(-40).forEach(m => {
+      const div = document.createElement('div');
+      div.className = `msg ${m.by==='me'?'me':'them'}`;
+      div.textContent = m.text;
+      box.appendChild(div);
+    });
+    box.scrollTop = box.scrollHeight;
+  }
 
-        function initializeGame() {
-            // Загружаем количество открытий
-            const savedDiscoveries = localStorage.getItem('planetDiscoveries');
-            discoveries = savedDiscoveries ? parseInt(savedDiscoveries) : 0;
-            document.querySelector('.discovery-count').textContent = discoveries;
-            
-            // Начинаем новую игру
-            startNewGame();
-            
-            // Назначаем обработчики событий
-            document.getElementById('guessBtn').addEventListener('click', makeGuess);
-            document.getElementById('hintBtn').addEventListener('click', showHint);
-            document.getElementById('newGameBtn').addEventListener('click', startNewGame);
-        }
+  function renderProfile(){
+    $('#name').value = state.profile.name; $('#age').value = state.profile.age; $('#bio').value = state.profile.bio; $('#avatar').textContent = state.profile.avatar;
+  }
 
-        function startNewGame() {
-            // Выбираем случайную планету
-            const planets = Object.keys(planetData);
-            currentPlanet = planets[Math.floor(Math.random() * planets.length)];
-            
-            // Сбрасываем попытки
-            attempts = 0;
-            
-            // Скрываем результат предыдущей попытки
-            document.getElementById('result').style.display = 'none';
-            
-            // Обновляем отображение планеты (показываем вопросительный знак)
-            document.getElementById('planetDisplay').textContent = '?';
-            
-            // Сбрасываем выбор в выпадающем списке
-            document.getElementById('planetSelect').value = '';
-            
-            // Добавляем запись в журнал
-            addLogEntry('Начата новая игра', 'game');
-        }
+  function show(s){ screens.forEach(x => document.getElementById(x).classList.toggle('hidden', x!==s)); if(s==='chat') renderChat(); if(s==='profile') renderProfile(); if(s==='discover') renderDiscover(); }
 
-        function makeGuess() {
-            const select = document.getElementById('planetSelect');
-            const selectedPlanet = select.value;
-            const resultDiv = document.getElementById('result');
-            
-            if (!selectedPlanet) {
-                resultDiv.textContent = 'Пожалуйста, выберите планету!';
-                resultDiv.className = 'result error';
-                resultDiv.style.display = 'block';
-                return;
-            }
-            
-            attempts++;
-            
-            if (selectedPlanet === currentPlanet) {
-                // Правильный ответ
-                document.getElementById('planetDisplay').textContent = planetData[currentPlanet].emoji;
-                
-                resultDiv.innerHTML = `
-                    <strong>Поздравляем!</strong><br>
-                    Вы угадали планету ${planetData[currentPlanet].name}!<br>
-                    Вам потребовалось ${attempts} ${getAttemptsWord(attempts)}.
-                `;
-                resultDiv.className = 'result success';
-                resultDiv.style.display = 'block';
-                
-                // Увеличиваем счетчик открытий
-                discoveries++;
-                document.querySelector('.discovery-count').textContent = discoveries;
-                localStorage.setItem('planetDiscoveries', discoveries);
-                
-                // Добавляем запись в журнал
-                addLogEntry(`Угадана планета: ${planetData[currentPlanet].name}`, 'success');
-                
-                // Автоматически начинаем новую игру через 3 секунды
-                setTimeout(startNewGame, 3000);
-            } else {
-                // Неправильный ответ
-                resultDiv.textContent = `Неправильно! Это не ${planetData[selectedPlanet].name}. Попробуйте еще раз.`;
-                resultDiv.className = 'result error';
-                resultDiv.style.display = 'block';
-                
-                // Добавляем запись в журнал
-                addLogEntry(`Неверная попытка: ${planetData[selectedPlanet].name}`, 'attempt');
-            }
-        }
+  document.querySelectorAll('nav button').forEach(b => b.addEventListener('click', ()=>show(b.dataset.s)));
+  $('#btnYes').addEventListener('click', ()=>{ state.likes++; state.chat.push({by:'them',text:'У нас мэтч! Хочешь созвон вечером?'}); persist(); renderDiscover(); });
+  $('#btnNo').addEventListener('click', ()=>{ state.passes++; persist(); renderDiscover(); });
 
-        function showHint() {
-            const resultDiv = document.getElementById('result');
-            resultDiv.textContent = `Подсказка: ${planetData[currentPlanet].hint}`;
-            resultDiv.className = 'result';
-            resultDiv.style.display = 'block';
-            
-            // Добавляем запись в журнал
-            addLogEntry('Запрошена подсказка', 'hint');
-        }
+  $('#send').addEventListener('click', ()=>{
+    const input = $('#chatInput'); const text = input.value.trim().slice(0,280); if(!text) return;
+    state.chat.push({by:'me',text}); input.value='';
+    setTimeout(()=>{ state.chat.push({by:'them',text:'Спасибо! Расскажи о себе 🙂'}); persist(); renderChat(); }, 350);
+    persist(); renderChat();
+  });
 
-        function getAttemptsWord(num) {
-            if (num % 10 === 1 && num % 100 !== 11) return 'попытка';
-            if ([2,3,4].includes(num % 10) && ![12,13,14].includes(num % 100)) return 'попытки';
-            return 'попыток';
-        }
+  $('#save').addEventListener('click', ()=>{
+    state.profile = validateProfile({name:$('#name').value, age:$('#age').value, bio:$('#bio').value});
+    persist(); renderProfile(); renderDiscover();
+    alert('Профиль сохранён безопасно ✅');
+  });
 
-        // Журнал посещений
-        function updateVisitorsLog() {
-            const logContainer = document.getElementById('logContainer');
-            const visitLog = JSON.parse(localStorage.getItem('spaceVisitLog') || '[]');
-            
-            logContainer.innerHTML = '';
-            
-            visitLog.forEach(entry => {
-                const logEntry = document.createElement('div');
-                logEntry.className = 'log-entry';
-                logEntry.innerHTML = `<span style="color: #a0a0ff">[${entry.time}]</span> ${entry.type}`;
-                logContainer.appendChild(logEntry);
-            });
-        }
+  $('#requestGeo').addEventListener('click', ()=>{
+    if(!('geolocation' in navigator)){ $('#geoStatus').textContent = 'Геолокация: недоступна'; return; }
+    navigator.geolocation.getCurrentPosition(
+      pos => { state.geo = {lat:pos.coords.latitude, lng:pos.coords.longitude, t:Date.now()}; persist(); renderDiscover(); },
+      err => { $('#geoStatus').textContent = `Геолокация: ошибка (${err.code})`; },
+      {enableHighAccuracy:false, timeout:6000, maximumAge:120000}
+    );
+  });
 
-        function addLogEntry(message, type) {
-            const visitLog = JSON.parse(localStorage.getItem('spaceVisitLog') || '[]');
-            const now = new Date();
-            
-            visitLog.unshift({
-                id: Date.now(),
-                time: now.toLocaleString('ru-RU'),
-                type: message
-            });
-            
-            // Ограничиваем журнал 100 записями
-            if (visitLog.length > 100) {
-                visitLog.length = 100;
-            }
-            
-            localStorage.setItem('spaceVisitLog', JSON.stringify(visitLog));
-            updateVisitorsLog();
-        }
-
-        // Добавляем несколько случайных записей в журнал при первом запуске
-        if (!localStorage.getItem('spaceVisitLog')) {
-            const initialLog = [];
-            const types = ['Посещение', 'Игра начата', 'Планета угадана', 'Подсказка запрошена'];
-            
-            // Создаем 100 записей за прошлые "посещения"
-            for (let i = 100; i >= 1; i--) {
-                const date = new Date();
-                date.setDate(date.getDate() - Math.floor(i / 10));
-                date.setHours(Math.floor(Math.random() * 24));
-                date.setMinutes(Math.floor(Math.random() * 60));
-                
-                initialLog.push({
-                    id: Date.now() - i * 1000000,
-                    time: date.toLocaleString('ru-RU'),
-                    type: types[Math.floor(Math.random() * types.length)]
-                });
-            }
-            
-            localStorage.setItem('spaceVisitLog', JSON.stringify(initialLog));
-            updateVisitorsLog();
-        }
-    </script>
+  window.addEventListener('storage', e => { if (e.key===key && e.newValue){ const n=safeParse(e.newValue); if(n){ state=Object.assign({},defaults,n); renderDiscover(); renderChat(); renderProfile(); } } });
+  show('discover');
+})();
+</script>
 </body>
 </html>
